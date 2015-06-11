@@ -1,21 +1,28 @@
-#!/usr/bin/python2.7
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3.4
 
-import sys
 import random
 import time
-from sys import stdout
+import sys
 
-def main():
-	while 42:
-		coffee = random.randint(0, 100000)
-		if coffee == 42:
-			sys.exit("COFFEE TIME!")
-		else :
 
-			print "%029s" % bin(coffee)
-
-		time.sleep(0.1)
+def main(last_coffee_break):
+    coffee = 0
+    while coffee != 42:
+        coffee = random.getrandbits(17) % 72000
+        print("{}".format(bin(coffee)), end="")
+        sys.stdout.flush()
+        time.sleep(0.1)
+    if last_coffee_break + 2400 > time.time():
+        main(last_coffee_break)
+    print("COFFEE TIME !\n")
+    user_input = input("Press any key to start the count down again..."
+                       " (or 'q' to exit): ")
+    if user_input != 'q':
+        user_input = None
+        coffee = None
+        main(time.time())
+    else:
+        sys.exit(-1)
 
 if __name__ == "__main__":
-	main()
+    main(time.time())
